@@ -1,0 +1,14 @@
+name: CI/CD
+
+on:
+  repository_dispatch:
+
+jobs:
+  print-payload:
+    runs-on: ubuntu-latest
+    steps:
+    - name: "Print payload"
+      run: |
+        echo "::group::My title"
+        echo "Inside group"
+        echo "::endgroup::"
