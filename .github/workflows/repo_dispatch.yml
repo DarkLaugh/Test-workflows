@@ -4,11 +4,30 @@ on:
   repository_dispatch:
 
 jobs:
-  print-payload:
+  run-app:
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        shell: bash
+        working-directory: TestWorkflowApp
+
     steps:
-    - name: "Print payload"
-      run: |
-        echo "::group::My title"
-        echo "Inside group"
-        echo "::endgroup::"
+    - name: "Check out code"
+      uses: actions/checkout@v3
+
+    - name: "Setup dotnet"
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: | 
+          6
+    
+    - name: "Install dependencies"
+      run: dotnet restore
+
+    - name: "Build"
+      run: dotnet build
+
+    - name: Run app
+      run: | 
+       dotnet run "Github Runner" "test"
