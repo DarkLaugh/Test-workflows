@@ -8,8 +8,6 @@ on:
 jobs:
   run-app:
     runs-on: ubuntu-latest
-    outputs:
-      migrationsOutput: ${{ steps.ExecuteMigrations.outputs.migrationsOutput }}
 
     defaults:
       run:
@@ -39,7 +37,7 @@ jobs:
       id: "ExecuteMigrations"
       continue-on-error: true
       run: | 
-       dotnet run ${{ github.event.client_payload.environment }} ${{ github.event.client_payload.databaseName }} ${{ github.event.client_payload.throwException }} >> $GITHUB_OUTPUT
+       dotnet run ${{ github.event.client_payload.environment }} ${{ github.event.client_payload.databaseName }} ${{ github.event.client_payload.throwException }}
 
     - name: "Get Integration API access token"
       id: BearerTokenRequest
@@ -57,5 +55,5 @@ jobs:
       with:
         url: ${{ secrets.IntegrationApiMigrationCallbackEndpoint }}
         method: 'POST'
-        data: '{"migrationRunResult": "${{ steps.ExecuteMigrations.outcome }}", "error": "${{ steps.ExecuteMigrations.outputs.migrationsOutput }}"}'
+        data: '{"migrationRunResult": "${{ steps.ExecuteMigrations.outcome }}", "error": ""}'
         bearerToken: ${{ fromJson(steps.BearerTokenRequest.outputs.response).access_token }}
