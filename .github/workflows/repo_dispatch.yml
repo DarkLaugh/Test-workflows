@@ -45,7 +45,8 @@ jobs:
         method: 'POST'
         username: ${{ secrets.IntegrationApiOktaUsername }}
         password: ${{ secrets.IntegrationApiOktaPassword }}
-        customHeaders: '{"Content-Type": "application/x-www-form-urlencoded","grant-type": "client_credentials"}'
+        customHeaders: '{"Content-Type": "application/x-www-form-urlencoded"}'
+        data: '{grant_type:client_credentials}'
     
     - name: "Send callback"
       uses: fjogeleit/http-request-action@v1
