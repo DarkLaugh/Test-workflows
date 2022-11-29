@@ -35,4 +35,4 @@ jobs:
 
     - name: "Run app"
       run: | 
-       dotnet run github.event.client_payload.environment github.event.client_payload.databaseName
+       dotnet run ${{ github.event.client_payload.environment }} ${{ github.event.client_payload.databaseName }}
