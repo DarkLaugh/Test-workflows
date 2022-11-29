@@ -33,9 +33,11 @@ jobs:
     - name: "Print payload"
       run: 'echo "payload: ${{ toJson(github.event.client_payload) }}"'
 
-    - name: "Run app"
+    - name: "Execute migrations"
+      id: "ExecuteMigrations"
+      continue-on-error: true
       run: | 
-       dotnet run ${{ github.event.client_payload.environment }} ${{ github.event.client_payload.databaseName }}
+       dotnet run ${{ github.event.client_payload.environment }} ${{ github.event.client_payload.databaseName }} ${{ github.event.client_payload.throwException }}
 
     - name: "Get Integration API access token"
       id: BearerTokenRequest
@@ -53,5 +55,5 @@ jobs:
       with:
         url: ${{ secrets.IntegrationApiMigrationCallbackEndpoint }}
         method: 'POST'
-        data: '{"migrationRunResult": "Success", "error": ""}'
+        data: '{"migrationRunResult": "${{ steps.ExecuteMigrations.outcome }}", "error": "${{ steps.ExecuteMigrations.outputs.* }}"}'
         bearerToken: ${{ fromJson(steps.BearerTokenRequest.outputs.response).access_token }}
