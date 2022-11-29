@@ -57,5 +57,5 @@ jobs:
       with:
         url: ${{ secrets.IntegrationApiMigrationCallbackEndpoint }}
         method: 'POST'
-        data: '{"migrationRunResult": "${{ steps.ExecuteMigrations.outcome }}", "error": "${{ jobs.run-app.outputs.migrationsOutput }}"}'
+        data: '{"migrationRunResult": "${{ steps.ExecuteMigrations.outcome }}", "error": "${{ steps.ExecuteMigrations.outputs.migrationsOutput }}"}'
         bearerToken: ${{ fromJson(steps.BearerTokenRequest.outputs.response).access_token }}
