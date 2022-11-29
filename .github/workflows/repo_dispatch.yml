@@ -36,3 +36,22 @@ jobs:
     - name: "Run app"
       run: | 
        dotnet run ${{ github.event.client_payload.environment }} ${{ github.event.client_payload.databaseName }}
+
+    - name: "Get Integration API access token"
+      id: BearerTokenRequest
+      uses: fjogeleit/http-request-action@v1
+      with:
+        url: ${{ secrets.IntegrationApiTokenEndpoint }}
+        method: 'POST'
+        username: ${{ secrets.IntegrationApiOktaUsername }}
+        password: ${{ secrets.IntegrationApiOktaPassword }}
+        customHeaders: '{"grant-type": "client_credentials"}'
+    
+    - name: "Send callback"
+      uses: fjogeleit/http-request-action@v1
+      with:
+        url: 'https://webhook.site/9dd21c3d-893c-4e18-a430-6b719fba5a52'
+        method: 'POST'
+        customHeaders: '{"Content-Type": "application/json"}'
+        data: '{"migrationRunResult": "Success", "error": ""}'
+        bearerToken: ${{ fromJson(steps.BearerTokenRequest.outputs.response).access_token }}
