@@ -15,9 +15,6 @@ jobs:
         working-directory: TestWorkflowApp
 
     steps:
-    - name: "Print payload"
-      run: 'echo "payload: ${{ toJson(github.event.client_payload) }}"'
-
     - name: "Check out code"
       uses: actions/checkout@v3
 
@@ -32,6 +29,9 @@ jobs:
 
     - name: "Build"
       run: dotnet build
+
+    - name: "Print payload"
+      run: 'echo "payload: ${{ toJson(github.event.client_payload) }}"'
 
     - name: "Run app"
       run: | 
