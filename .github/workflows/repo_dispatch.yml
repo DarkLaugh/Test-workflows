@@ -37,12 +37,11 @@ jobs:
       id: "ExecuteMigrations"
       continue-on-error: true
       run: |
-        echo "MIGRATIONS_RUN_OUTPUT=$(dotnet run ${{ github.event.client_payload.environment }} ${{ github.event.client_payload.databaseName }} ${{ github.event.client_payload.throwException }})" >> GITHUB_OUTPUT
+        echo "MIGRATIONS_RUN_OUTPUT=$(dotnet run ${{ github.event.client_payload.environment }} ${{ github.event.client_payload.databaseName }} ${{ github.event.client_payload.throwException }})" >> $GITHUB_OUTPUT
 
     - name: "Check output"
       run: |
-        echo "Following this line is the output saved to the context:"
-        echo ${{ steps.ExecuteMigrations.outputs.MIGRATIONS_RUN_OUTPUT }}
+        echo "Following this line is the output saved to the context: ${{ steps.ExecuteMigrations.outputs.MIGRATIONS_RUN_OUTPUT }}"
 
     - name: "Get Integration API access token"
       id: BearerTokenRequest
