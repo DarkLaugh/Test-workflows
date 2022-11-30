@@ -40,6 +40,7 @@ jobs:
         . <({ err=$({ out=$(dotnet run ${{ github.event.client_payload.environment }} ${{ github.event.client_payload.databaseName }} ${{ github.event.client_payload.throwException }}); ret=$?; } 2>&1; declare -p out ret >&2); declare -p err; } 2>&1)
         echo "Output : ${out}"
         echo "Error: ${err}"
+        echo "MIGRATIONS_RUN_ERROR=${err}" >> $GITHUB_OUTPUT
         echo "Command exit code: ${ret}"
         if [ $ret -eq 0 ]
         then
