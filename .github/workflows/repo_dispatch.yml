@@ -38,9 +38,9 @@ jobs:
       continue-on-error: true
       run: |
         . <({ berr=$({ bout=$(dotnet run ${{ github.event.client_payload.environment }} ${{ github.event.client_payload.databaseName }} ${{ github.event.client_payload.throwException }}); bret=$?; } 2>&1; declare -p bout bret >&2); declare -p berr; } 2>&1)
-        echo "${bout}"
-        echo "${berr}"
-        echo "${bret}"
+        echo "Output : ${bout}"
+        echo "Error: ${berr}"
+        echo "Exit code: ${bret}"
   
     - name: "Get Integration API access token"
       id: BearerTokenRequest
