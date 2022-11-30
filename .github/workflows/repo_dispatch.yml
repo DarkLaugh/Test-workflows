@@ -37,17 +37,11 @@ jobs:
       id: "ExecuteMigrations"
       continue-on-error: true
       run: |
-        {
-            IFS=$'\n' read -r -d '' CAPTURED_STDERR;
-            IFS=$'\n' read -r -d '' CAPTURED_STDOUT;
-        } < <((printf '\0%s\0' "$(dotnet run ${{ github.event.client_payload.environment }} ${{ github.event.client_payload.databaseName }} ${{ github.event.client_payload.throwException }})" 1>&2) 2>&1)
-        echo 'Here is the captured stdout:'
-        echo "${CAPTURED_STDOUT}"
-        echo
-        echo 'And here is the captured stderr:'
-        echo "${CAPTURED_STDERR}"
-        echo
-
+        . <({ berr=$({ bout=$(dotnet run ${{ github.event.client_payload.environment }} ${{ github.event.client_payload.databaseName }} ${{ github.event.client_payload.throwException }}); bret=$?; } 2>&1; declare -p bout bret >&2); declare -p berr; } 2>&1)
+        echo "${bout}"
+        echo "${berr}"
+        echo "${bret}"
+  
     - name: "Get Integration API access token"
       id: BearerTokenRequest
       uses: fjogeleit/http-request-action@v1
