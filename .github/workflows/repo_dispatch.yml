@@ -38,8 +38,10 @@ jobs:
       continue-on-error: true
       run: |
         MIGRATIONS_RUN_OUTPUT=$(dotnet run ${{ github.event.client_payload.environment }} ${{ github.event.client_payload.databaseName }} ${{ github.event.client_payload.throwException }}) >> GITHUB_OUTPUT
-        echo "1234"
+        echo "Following this line is the output from the dotnet command:"
         echo "${MIGRATIONS_RUN_OUTPUT}"
+        echo "Following this line is the output saved to the context:"
+        echo ${{ steps.ExecuteMigrations.outputs.MIGRATIONS_RUN_OUTPUT }}
 
     - name: "Get Integration API access token"
       id: BearerTokenRequest
