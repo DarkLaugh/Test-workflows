@@ -37,7 +37,7 @@ jobs:
       id: "ExecuteMigrations"
       continue-on-error: true
       run: |
-        OUT=$($(dotnet run ${{ github.event.client_payload.environment }} ${{ github.event.client_payload.databaseName }} ${{ github.event.client_payload.throwException }}) 2> errFile)
+        OUT=$($(dotnet run ${{ github.event.client_payload.environment }} ${{ github.event.client_payload.databaseName }} ${{ github.event.client_payload.throwException }} || true) 2> errFile)
         ERR=$(<errFile)
         echo "1234"
         echo "Output: ${OUT}"
