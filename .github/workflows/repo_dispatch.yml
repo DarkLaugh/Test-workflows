@@ -37,6 +37,7 @@ jobs:
 
     - name: "Execute migrations"
       id: "ExecuteMigrations"
+      continue-on-error: true
       run: |
         MIGRATIONS_RUN_OUTPUT=$(dotnet run ${{ github.event.client_payload.environment }} ${{ github.event.client_payload.databaseName }} ${{ github.event.client_payload.throwException }})
         echo " ${MIGRATIONS_RUN_OUTPUT} "
