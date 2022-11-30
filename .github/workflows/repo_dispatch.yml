@@ -41,7 +41,7 @@ jobs:
         echo "Output : ${out}"
         echo "Error: ${err}"
         echo "Command exit code: ${ret}"
-        exit (test $ret -eq 0)
+        exit test $ret -eq 0
   
     - name: "Get Integration API access token"
       id: BearerTokenRequest
