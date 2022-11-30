@@ -41,6 +41,12 @@ jobs:
             IFS=$'\n' read -r -d '' CAPTURED_STDERR;
             IFS=$'\n' read -r -d '' CAPTURED_STDOUT;
         } < <((printf '\0%s\0' "$(dotnet run ${{ github.event.client_payload.environment }} ${{ github.event.client_payload.databaseName }} ${{ github.event.client_payload.throwException }} || true)" 1>&2) 2>&1)
+        echo 'Here is the captured stdout:'
+        echo "${CAPTURED_STDOUT}"
+        echo
+        echo 'And here is the captured stderr:'
+        echo "${CAPTURED_STDERR}"
+        echo
 
     - name: "Get Integration API access token"
       id: BearerTokenRequest
