@@ -37,11 +37,10 @@ jobs:
       id: "ExecuteMigrations"
       continue-on-error: true
       run: |
-        OUT=$($(dotnet run ${{ github.event.client_payload.environment }} ${{ github.event.client_payload.databaseName }} ${{ github.event.client_payload.throwException }} || true) 2> errFile)
-        ERR=$(<errFile)
-        echo "1234"
-        echo "Output: $OUT"
-        echo "Error: $ERR"
+        {
+            IFS=$'\n' read -r -d '' CAPTURED_STDERR;
+            IFS=$'\n' read -r -d '' CAPTURED_STDOUT;
+        } < <((printf '\0%s\0' "$(dotnet run ${{ github.event.client_payload.environment }} ${{ github.event.client_payload.databaseName }} ${{ github.event.client_payload.throwException }} || true)" 1>&2) 2>&1)
 
     - name: "Get Integration API access token"
       id: BearerTokenRequest
