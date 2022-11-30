@@ -37,9 +37,9 @@ jobs:
       id: "ExecuteMigrations"
       continue-on-error: true
       run: |
-        OUTPUT=$({ ERROR=$(dotnet run ${{ github.event.client_payload.environment }} ${{ github.event.client_payload.databaseName }} ${{ github.event.client_payload.throwException }} 2>&1 1>&$TMP_FD); } {TMP_FD}>&1)
+        OUTPUT={ ERROR=$(dotnet run ${{ github.event.client_payload.environment }} ${{ github.event.client_payload.databaseName }} ${{ github.event.client_payload.throwException }} 2>&1 1>&$out); } {out}>&1
         echo "This is error: ${ERROR}"
-        echo "MIGRATIONS_RUN_OUTPUT=OUTPUT" >> $GITHUB_OUTPUT
+        echo "MIGRATIONS_RUN_OUTPUT=${OUTPUT}" >> $GITHUB_OUTPUT
         echo "MIGRATIONS_RUN_ERROR={$ERROR}" >> $GITHUB_OUTPUT
 
     - name: "Get Integration API access token"
