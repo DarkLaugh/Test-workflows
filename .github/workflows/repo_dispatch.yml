@@ -65,5 +65,5 @@ jobs:
       with:
         url: ${{ secrets.IntegrationApiMigrationCallbackEndpoint }}
         method: 'POST'
-        data: '{"migrationRunResult": "${{ steps.ExecuteMigrations.outcome }}","tenantDetails": "$${{ toJson(github.event.client_payload) }}","error": "${{ steps.ExecuteMigrations.outputs.MIGRATIONS_RUN_ERROR }}"}'
+        data: '{"migrationRunResult": "${{ steps.ExecuteMigrations.outcome }}","tenantDetails": "${{ github.event.client_payload }}","error": "${{ steps.ExecuteMigrations.outputs.MIGRATIONS_RUN_ERROR }}"}'
         bearerToken: ${{ fromJson(steps.BearerTokenRequest.outputs.response).access_token }}
