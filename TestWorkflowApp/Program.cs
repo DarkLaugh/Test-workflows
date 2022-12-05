@@ -8,12 +8,6 @@ namespace TestWorkflowApp
         {
             var env = args[0];
             var specificDatabaseName = args[1];
-            bool.TryParse(args[2], out bool throwException);
-
-            if (throwException)
-            {
-                throw new SqlNullValueException("Missing value for ID column");
-            }
 
             Console.WriteLine($"Executing on {env} environment. Running migrations on - {specificDatabaseName} database.");
         }
