@@ -1,6 +1,4 @@
-﻿using System.Data.SqlTypes;
-
-namespace TestWorkflowApp
+﻿namespace TestWorkflowApp
 {
     internal class Program
     {
