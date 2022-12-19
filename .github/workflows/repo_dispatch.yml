@@ -22,8 +22,8 @@ jobs:
       continue-on-error: true
       if: "${{ github.event.client_payload.environment != '' || github.event.client_payload.databaseName != '' }}"
       run: |
-      >&2 echo "Not all required parameters are provided"
-      exit 1
+        echo "Not all required parameters are provided" >&2
+        exit 1
 
     - name: "Check out code"
       continue-on-error: true
