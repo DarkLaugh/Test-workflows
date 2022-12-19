@@ -34,7 +34,7 @@ jobs:
 
     - name: "Execute migrations"
       id: "ExecuteMigrations"
-      if: "${{ github.event.client_payload.environment != '' || github.event.client_payload.databaseName != '' }}"
+      if: github.event.client_payload.environment != '' || github.event.client_payload.databaseName != ''
       continue-on-error: true
       run: |
         . <({ err=$({ out=$(dotnet run ${{ github.event.client_payload.environment }} ${{ github.event.client_payload.databaseName }} }}); ret=$?; } 2>&1; declare -p out ret >&2); declare -p err; } 2>&1)
