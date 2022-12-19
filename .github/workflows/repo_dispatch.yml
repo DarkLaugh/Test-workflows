@@ -1,7 +1,6 @@
 name: CI/CD
 
 on:
-  workflow_dispatch:
   repository_dispatch:
     types: [tenant_creation_event]
 
@@ -15,23 +14,34 @@ jobs:
         working-directory: TestWorkflowApp
 
     steps:
+    - name: "Print payload"
+      continue-on-error: true
+      run: 'echo "payload: ${{ toJson(github.event.client_payload) }}"'
+
+    - name: "Check required parameters"
+      if: "${{ github.event.client_payload.environment != '' || github.event.client_payload.databaseName != '' }}"
+      run: |
+      >&2 echo "Not all required parameters are provided"
+      exit 1
+
     - name: "Check out code"
+      continue-on-error: true
       uses: actions/checkout@v3
 
     - name: "Setup dotnet"
+      continue-on-error: true
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: | 
           6
     
     - name: "Install dependencies"
+      continue-on-error: true
       run: dotnet restore
 
     - name: "Build"
+      continue-on-error: true
       run: dotnet build
-
-    - name: "Print payload"
-      run: 'echo "payload: ${{ toJson(github.event.client_payload) }}"'
 
     - name: "Execute migrations"
       id: "ExecuteMigrations"
