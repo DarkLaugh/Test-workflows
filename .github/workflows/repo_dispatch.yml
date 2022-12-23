@@ -6,7 +6,7 @@ on:
 
 jobs:
   run-app:
-    runs-on: ${{ github.event.client_payload.environment }}
+    runs-on: ubuntu-latest
 
     defaults:
       run:
